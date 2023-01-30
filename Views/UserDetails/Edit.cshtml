@@ -33,10 +33,45 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @{
+                    string gender = Model.Gender;
+                    Console.WriteLine("Inside Edit Razor Code");
+                    Console.WriteLine(Model.Gender);
+                    Console.WriteLine(Model.Gender.Equals("Male"));
+                    Console.WriteLine(Model.Gender == "Male");
+                    Console.WriteLine(String.Compare(gender,"Male"));
+                    Console.WriteLine(String.Equals(gender,"Male"));
+                    if(Model.Gender!="Male")
+                    {
+                        <input asp-for="Gender" class="form-check-input" type="radio" value="Male" checked>
+                        <label asp-for="Gender" class="form-check-label">
+                            Male
+                        </label>
+                        <input asp-for="Gender" class="form-check-input" type="radio" value="Female">
+                        <label asp-for="Gender" class="form-check-label">
+                            Female
+                        </label>
+                    }
+                    else
+                    {
+                        <input asp-for="Gender" class="form-check-input" type="radio" value="Male">
+                        <label asp-for="Gender" class="form-check-label">
+                            Male
+                        </label>
+                        <input asp-for="Gender" class="form-check-input" type="radio" value="Female" checked>
+                        <label asp-for="Gender" class="form-check-label">
+                            Female
+                        </label>
+                    }
+
+                
+                }
+            </div>
+            <!--div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
                 <input asp-for="Gender" class="form-control" />
                 <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
+                        </div>-->
             <div class="form-group">
                 <label asp-for="EmailId" class="control-label"></label>
                 <input asp-for="EmailId" class="form-control" />

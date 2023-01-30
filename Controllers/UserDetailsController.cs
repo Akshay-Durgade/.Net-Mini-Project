@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MP1.Models;
 
 namespace MP1.Controllers
 {
@@ -8,13 +9,22 @@ namespace MP1.Controllers
         // GET: UserDetailsController
         public ActionResult Index()
         {
-            return View();
+            List<UserDetails> list=UserDetails.DisplayAll();
+            foreach(var e in list)
+            {
+                Console.WriteLine(e.Id+"\t"+e.FullName);
+            }
+            return View(list);
         }
 
         // GET: UserDetailsController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            UserDetails u=UserDetails.DisplaySingleDetails(id);
+            if(u.Id==id)
+                return View(u);
+
+            return View(u);
         }
 
         // GET: UserDetailsController/Create
@@ -26,10 +36,13 @@ namespace MP1.Controllers
         // POST: UserDetailsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(IFormCollection collection,UserDetails u)
         {
             try
             {
+                Console.WriteLine("1");
+                UserDetails.Insert(u);
+                Console.WriteLine("2");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -41,7 +54,8 @@ namespace MP1.Controllers
         // GET: UserDetailsController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            UserDetails u = UserDetails.DisplaySingleDetails(id);
+            return View(u);
         }
 
         // POST: UserDetailsController/Edit/5
@@ -62,7 +76,8 @@ namespace MP1.Controllers
         // GET: UserDetailsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            UserDetails u = UserDetails.DisplaySingleDetails(id);
+            return View(u);
         }
 
         // POST: UserDetailsController/Delete/5
@@ -72,6 +87,7 @@ namespace MP1.Controllers
         {
             try
             {
+                UserDetails.DeleteUser(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
