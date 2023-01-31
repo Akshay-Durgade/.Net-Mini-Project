@@ -5,10 +5,10 @@
     ViewData["Title"] = "HomePage";
 }
 
-<h1>HomePage</h1>
+<h1 class="text-center">HomePage</h1>
 
 <div>
-    <div class="text-center">
+    <div>
         @{
 
             string s = HttpContextAccessor.HttpContext.Session.GetString("user");
@@ -16,8 +16,8 @@
             Console.WriteLine(s);
             Console.WriteLine(u.Id);
         }
-        <h1 class="display-4">Welcome @u.FullName</h1>
-    <h4>UserDetails</h4>
+        <h1 class="display-4 text-center">Welcome @u.FullName</h1>
+    @*<h4>UserDetails</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -71,14 +71,14 @@
     </dl>
 </div>
     <div>
-        @Html.ActionLink("Edit", "Edit", new { id=u.Id}, new {@class="btn btn-primary ms-2"})
+        @Html.ActionLink("Update Profile", "Edit", new { id=u.Id}, new {@class="btn btn-primary ms-2"})
         <partial name="LogOutButton" />
     </div>
-    <div>
+    @*<div>
         <partial name="LogOutButton" />
-    </div>
+    </div>*@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-<div>
+@*<div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

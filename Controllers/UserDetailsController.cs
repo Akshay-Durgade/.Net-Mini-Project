@@ -1,11 +1,13 @@
 ﻿/*using AspNetCore;
 using Microsoft.AspNetCore.Http;*/
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MP1.Models;
 using System.Text.Json;
 
 namespace MP1.Controllers
 {
+    
     public class UserDetailsController : Controller
     {
         // GET: UserDetailsController
@@ -30,12 +32,14 @@ namespace MP1.Controllers
             return View(u);
         }
 
+       
         // GET: UserDetailsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        
         // POST: UserDetailsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -99,9 +103,11 @@ namespace MP1.Controllers
             }
         }
 
+
         // GET: UserDetailsController/LoginPage/5
         public ActionResult LoginPage(string username,string password)
         {
+            HttpContext.Session.Clear();
             return View();
         }
 
