@@ -19,11 +19,12 @@ namespace MP1.Controllers
 
         // GET: UserDetailsController/Details/5
         public ActionResult Details(int id)
-        {
+        {         
             UserDetails u=UserDetails.DisplaySingleDetails(id);
-            if(u.Id==id)
+            if (u.Id == id)
+            {
                 return View(u);
-
+            }
             return View(u);
         }
 
@@ -40,9 +41,7 @@ namespace MP1.Controllers
         {
             try
             {
-                Console.WriteLine("1");
                 UserDetails.Insert(u);
-                Console.WriteLine("2");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -55,6 +54,8 @@ namespace MP1.Controllers
         public ActionResult Edit(int id)
         {
             UserDetails u = UserDetails.DisplaySingleDetails(id);
+            Console.WriteLine("Inside mY Controller");
+            Console.WriteLine(u.Gender);
             return View(u);
         }
 
@@ -92,6 +93,28 @@ namespace MP1.Controllers
             }
             catch
             {
+                return View();
+            }
+        }
+
+        // GET: UserDetailsController/LoginPage/5
+        public ActionResult LoginPage(string username,string password)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LoginPage(string username,string password,IFormCollection collection,UserDetails u)
+        {
+            UserDetails u1=UserDetails.DisplayLogin(u.UserName,u.Password);
+            if(u1!= null)
+            {
+                return Redirect($"UserDetails/Details/{u1.Id}");
+            }
+            else
+            {
+                ViewBag.a = "Wrong Credentials Entered";
                 return View();
             }
         }

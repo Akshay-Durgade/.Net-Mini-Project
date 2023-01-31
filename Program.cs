@@ -24,7 +24,7 @@ namespace MP1
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=UserDetails}/{action=Index}/{id?}");
+                pattern: "{controller=UserDetails}/{action=LoginPage}/{id?}");
 
             app.Run();
         }
