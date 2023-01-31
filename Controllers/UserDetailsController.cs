@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/*using AspNetCore;
+using Microsoft.AspNetCore.Http;*/
 using Microsoft.AspNetCore.Mvc;
 using MP1.Models;
+using System.Text.Json;
 
 namespace MP1.Controllers
 {
@@ -110,13 +112,22 @@ namespace MP1.Controllers
             UserDetails u1=UserDetails.DisplayLogin(u.UserName,u.Password);
             if(u1!= null)
             {
-                return Redirect($"UserDetails/Details/{u1.Id}");
+                string jsonUser=JsonSerializer.Serialize<UserDetails>(u1);
+                HttpContext.Session.SetString("user", jsonUser);
+                return Redirect($"UserDetails/HomePage");
+               /* return Redirect($"Home/Index");*/
+               /* return Redirect($"UserDetails/Details/{u1.Id}");*/
             }
             else
             {
                 ViewBag.a = "Wrong Credentials Entered";
                 return View();
             }
+        }
+
+        public ActionResult HomePage()
+        {
+            return View();
         }
     }
 }

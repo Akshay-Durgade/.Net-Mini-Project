@@ -1,0 +1,84 @@
+﻿@model MP1.Models.UserDetails
+@using System.Text.Json;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "HomePage";
+}
+
+<h1>HomePage</h1>
+
+<div>
+    <div class="text-center">
+        @{
+
+            string s = HttpContextAccessor.HttpContext.Session.GetString("user");
+            UserDetails u = JsonSerializer.Deserialize<UserDetails>(s);
+            Console.WriteLine(s);
+            Console.WriteLine(u.Id);
+        }
+        <h1 class="display-4">Welcome @u.FullName</h1>
+    <h4>UserDetails</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @u.Id
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @u.UserName
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @u.FullName
+        </dd>
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd class = "col-sm-10">
+                @u.FullName
+        </dd>*@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class = "col-sm-10">
+                @u.Gender
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailId)
+        </dt>
+        <dd class = "col-sm-10">
+                @u.EmailId
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+                @u.PhoneNumber
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class = "col-sm-10">
+                @u.City
+        </dd>
+    </dl>
+</div>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id=u.Id}, new {@class="btn btn-primary ms-2"})
+        <partial name="LogOutButton" />
+    </div>
+    <div>
+        <partial name="LogOutButton" />
+    </div>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

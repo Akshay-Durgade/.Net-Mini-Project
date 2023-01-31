@@ -1,8 +1,26 @@
-﻿@{
+﻿@model MP1.Models.UserDetails
+@using System.Text.Json;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Home Page";
 }
-
+<div>
+    <partial name="LogOutButton"/>
+</div>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    @{
+
+        string s = HttpContextAccessor.HttpContext.Session.GetString("user");
+        UserDetails u = JsonSerializer.Deserialize<UserDetails>(s);
+        Console.WriteLine(s);
+        Console.WriteLine(u.Id);
+    }
+    <h1 class="display-4">Welcome @u.FullName</h1>
+    <div>
+        <a asp-controller="UserDetails" asp-action="Edit"><button class="btn btn-info mt-2 text-white">Update Profile</button></a>
+    </div>
+    <div>
+        <partial name="LogOutButton" />
+    </div>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

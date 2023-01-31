@@ -9,6 +9,13 @@ namespace MP1
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSession(options => 
+            {
+                options.IdleTimeout=TimeSpan.FromMinutes(1);
+                options.Cookie.HttpOnly= true;
+                options.Cookie.IsEssential= true;
+            });
+            builder.Services.AddHttpContextAccessor();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -21,6 +28,7 @@ namespace MP1
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
