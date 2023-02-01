@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MP1.Models;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MP1.ViewModels;
 
 namespace MP1.Controllers
 {
@@ -36,7 +39,10 @@ namespace MP1.Controllers
         // GET: UserDetailsController/Create
         public ActionResult Create()
         {
-            return View();
+            UserModel u = new UserModel();
+            List<SelectListItem> cl = CityDetails.GetAllList();
+            u.CityList = cl;
+            return View(u);
         }
 
         
