@@ -12,6 +12,8 @@ namespace MP1.ViewModels
         public string PhoneNumber { get; set; }
         public int City { get; set; }
 
+        public string CityName { get; set; }
+
         public IEnumerable<SelectListItem> CityList { get; set; }
     }
 }

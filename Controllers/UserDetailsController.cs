@@ -95,9 +95,36 @@ namespace MP1.Controllers
                 u1.Password=u.Password;
                 List<SelectListItem> cl = CityDetails.GetAllList();
                 u1.CityList = cl;
+                ViewBag.CityDetail = cl;
                 Console.WriteLine("Inside mY Controller");
                 Console.WriteLine(u.Gender);
                 return View(u);
+            }
+        }
+        public ActionResult Edit1(int id)
+        {
+
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
+                return Redirect($"http://localhost:5277/");
+            else
+            {
+                UserDetails u = UserDetails.DisplaySingleDetails(id);
+                UserModel u1 = new UserModel();
+                u1.Id = u.Id;
+                u1.UserName = u.UserName;
+                u1.FullName = u.FullName;
+                u1.Password = u.Password;
+                u1.PhoneNumber = u.PhoneNumber;
+                u1.EmailId = u.EmailId;
+                u1.Gender = u.Gender;
+                u1.Password = u.Password;
+                List<SelectListItem> cl = CityDetails.GetAllList();
+                u1.CityList = cl;
+                ViewBag.CityDetail = cl;
+                Console.WriteLine("Inside mY Controller");
+                Console.WriteLine(u.Gender);
+                return View(u1);
             }
         }
 
@@ -191,6 +218,18 @@ namespace MP1.Controllers
                 return Redirect($"http://localhost:5277/");
             else
                 return View();
+        }
+
+        public ActionResult ViewCityWise()
+        {
+            List<UserDetails> users = new List<UserDetails>();
+            users = UserDetails.DisplayAll();
+            List<UserModel> models = new List<UserModel>();
+            foreach(UserDetails user in users) 
+            {
+                models.Add(new UserModel { Id = user.Id, UserName = user.UserName, FullName = user.FullName, Gender = user.Gender, EmailId = user.EmailId, PhoneNumber = user.PhoneNumber, CityName= CityDetails.SelectCity(user.City).CityName });
+            }
+            return View(models);
         }
     }
 }

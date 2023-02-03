@@ -41,5 +41,41 @@ namespace MP1.Models
             }
             return list;
         }
+
+        public static CityDetails SelectCity(int CityId)
+        {
+            SqlConnection cn = new SqlConnection();
+            cn.ConnectionString = "Data Source=(localdb)\\ProjectModels;Initial Catalog=Project;Integrated Security=True;";
+            CityDetails c = new CityDetails();
+            try
+            {
+                Console.WriteLine("4");
+                cn.Open();
+                SqlCommand insert = new SqlCommand();
+                insert.Connection = cn;
+                insert.CommandType = CommandType.StoredProcedure;
+                insert.CommandText = "SelectCity";
+                insert.Parameters.AddWithValue("@CityId", CityId);
+                SqlDataReader dr = insert.ExecuteReader();
+                if (dr.Read())
+                {
+                    c.CityName = dr.GetString("CityName");
+                    c.CityId = dr.GetInt32("CityId");
+                }
+
+                /*return list;*/
+                dr.Close();
+                return c;
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+            finally
+            {
+
+                cn.Close();
+
+            }
+            return c;
+        }
     }
+    
 }

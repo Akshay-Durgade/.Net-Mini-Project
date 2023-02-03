@@ -6,21 +6,37 @@ namespace MP1.Models
 {
     public class UserDetails
     {
+        [Key]
+        [Display(Name = "Student Id")]
         public int Id { get; set; }
         [DataType(DataType.Text)]
+        [Display(Name = "Student User Name")]
+        [Required(ErrorMessage = "Please enter Login name")]
         public string UserName { get; set; }
+
+
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Please enter your User Name"), MaxLength(40)]
-        
+        [Required(ErrorMessage = "Please enter name")]
+        [StringLength(30, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string FullName { get; set; }
-        [Required(ErrorMessage = "Password is required")]
+
+        [Required(ErrorMessage = "Please enter password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please select Gender")]
         public string Gender { get; set; }
-        [Required(ErrorMessage = "Email is required")]
-        [StringLength(30, ErrorMessage = "Must be between 5 and 50 characters", MinimumLength = 5)]
-        [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Must be a valid email")]
+        [EmailAddress]
+        [Required(ErrorMessage = "Please enter emailId")]
         public string EmailId { get; set; }
+
+        [Required(ErrorMessage = "Please enter Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\+?([6-9]{1})\)?([0-9]{9})$",
+                  ErrorMessage = "Entered valid phone number.")]
         public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Please select Degree")]
         public int City { get; set; }
 
         public static void Insert(UserDetails u)
