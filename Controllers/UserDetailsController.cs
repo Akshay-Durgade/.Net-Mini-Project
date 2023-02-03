@@ -21,18 +21,30 @@ namespace MP1.Controllers
             {
                 Console.WriteLine(e.Id+"\t"+e.FullName);
             }
-            return View(list);
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
+                return Redirect($"http://localhost:5277/");
+            else
+                return View(list);
         }
 
         // GET: UserDetailsController/Details/5
         public ActionResult Details(int id)
         {         
-            UserDetails u=UserDetails.DisplaySingleDetails(id);
-            if (u.Id == id)
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
             {
+                return Redirect($"http://localhost:5277/");
+            } 
+            else
+            {
+                UserDetails u = UserDetails.DisplaySingleDetails(id);
+                if (u.Id == id)
+                {
+                    return View(u);
+                }
                 return View(u);
             }
-            return View(u);
         }
 
        
@@ -65,19 +77,41 @@ namespace MP1.Controllers
         // GET: UserDetailsController/Edit/5
         public ActionResult Edit(int id)
         {
-            UserDetails u = UserDetails.DisplaySingleDetails(id);
-            Console.WriteLine("Inside mY Controller");
-            Console.WriteLine(u.Gender);
-            return View(u);
+
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
+                return Redirect($"http://localhost:5277/");
+            else
+            { 
+                UserDetails u = UserDetails.DisplaySingleDetails(id);
+                UserModel u1= new UserModel();
+                u1.Id = u.Id;
+                u1.UserName = u.UserName;
+                u1.FullName= u.FullName;
+                u1.Password = u.Password;
+                u1.PhoneNumber = u.PhoneNumber;
+                u1.EmailId = u.EmailId;
+                u1.Gender= u.Gender;
+                u1.Password=u.Password;
+                List<SelectListItem> cl = CityDetails.GetAllList();
+                u1.CityList = cl;
+                Console.WriteLine("Inside mY Controller");
+                Console.WriteLine(u.Gender);
+                return View(u);
+            }
         }
 
         // POST: UserDetailsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, IFormCollection collection,UserDetails u)
         {
             try
             {
+                Console.WriteLine(u.UserName);
+                Console.WriteLine(u.Id);
+                Console.WriteLine("Update try block entered");
+                UserDetails.UpdateUser(u);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -89,8 +123,14 @@ namespace MP1.Controllers
         // GET: UserDetailsController/Delete/5
         public ActionResult Delete(int id)
         {
-            UserDetails u = UserDetails.DisplaySingleDetails(id);
-            return View(u);
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
+                return Redirect($"http://localhost:5277/");
+            else
+            { 
+                UserDetails u = UserDetails.DisplaySingleDetails(id);
+                return View(u);
+            }
         }
 
         // POST: UserDetailsController/Delete/5
@@ -119,8 +159,15 @@ namespace MP1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LoginPage(string username,string password,IFormCollection collection,UserDetails u)
+        public ActionResult LoginPage(string username,string password,IFormCollection collection,UserDetails u,bool CheckBox)
         {
+            if(CheckBox==true)
+            {
+                Console.WriteLine(" This is for Checkbox int login page");
+            }
+            else
+            { Console.WriteLine("NOt working"); }
+            
             UserDetails u1=UserDetails.DisplayLogin(u.UserName,u.Password);
             if(u1!= null)
             {
@@ -137,9 +184,13 @@ namespace MP1.Controllers
             }
         }
 
-        public ActionResult HomePage()
+        public ActionResult HomePage() 
         {
-            return View();
+            String username=HttpContext.Session.GetString("user");
+            if (username == null)
+                return Redirect($"http://localhost:5277/");
+            else
+                return View();
         }
     }
 }

@@ -1,15 +1,24 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 namespace MP1.Models
 {
     public class UserDetails
     {
         public int Id { get; set; }
+        [DataType(DataType.Text)]
         public string UserName { get; set; }
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Please enter your User Name"), MaxLength(40)]
+        
         public string FullName { get; set; }
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         public string Gender { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        [StringLength(30, ErrorMessage = "Must be between 5 and 50 characters", MinimumLength = 5)]
+        [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Must be a valid email")]
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }
         public int City { get; set; }
@@ -195,6 +204,36 @@ namespace MP1.Models
             }
             return u;
             
+        }
+
+        public static void UpdateUser(UserDetails u)
+        {
+
+            Console.WriteLine("Update SQL Block Entered");
+            SqlConnection cn = new SqlConnection();
+            Console.WriteLine(u.UserName+"Username");
+            cn.ConnectionString = "Data Source=(localdb)\\ProjectModels;Initial Catalog=Project;Integrated Security=True;";
+            try
+            {
+                Console.WriteLine("4");
+                cn.Open();
+                SqlCommand insert = new SqlCommand();
+                insert.Connection = cn;
+                insert.CommandType = CommandType.StoredProcedure;
+                insert.CommandText = "UpdateUser";
+                insert.Parameters.AddWithValue("@Id", u.Id);
+                insert.Parameters.AddWithValue("@UserName", u.UserName);
+                insert.Parameters.AddWithValue("@FullName", u.FullName);
+                insert.Parameters.AddWithValue("@Gender", u.Gender);
+                insert.Parameters.AddWithValue("@EmailId", u.EmailId);
+                insert.Parameters.AddWithValue("@City", u.City);
+                insert.Parameters.AddWithValue("@PhoneNumber", u.PhoneNumber);
+                insert.ExecuteNonQuery();
+                Console.WriteLine("5");
+                Console.WriteLine("Query Worked Entry Inserted");
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+            finally { cn.Close(); }
         }
     }
 }
