@@ -222,14 +222,22 @@ namespace MP1.Controllers
 
         public ActionResult ViewCityWise()
         {
-            List<UserDetails> users = new List<UserDetails>();
-            users = UserDetails.DisplayAll();
-            List<UserModel> models = new List<UserModel>();
-            foreach(UserDetails user in users) 
+            String username = HttpContext.Session.GetString("user");
+            if (username == null)
             {
-                models.Add(new UserModel { Id = user.Id, UserName = user.UserName, FullName = user.FullName, Gender = user.Gender, EmailId = user.EmailId, PhoneNumber = user.PhoneNumber, CityName= CityDetails.SelectCity(user.City).CityName });
+                return Redirect($"http://localhost:5277/");
             }
-            return View(models);
+            else
+            {
+                List<UserDetails> users = new List<UserDetails>();
+                users = UserDetails.DisplayAll();
+                List<UserModel> models = new List<UserModel>();
+                foreach (UserDetails user in users)
+                {
+                    models.Add(new UserModel { Id = user.Id, UserName = user.UserName, FullName = user.FullName, Gender = user.Gender, EmailId = user.EmailId, PhoneNumber = user.PhoneNumber, CityName = CityDetails.SelectCity(user.City).CityName });
+                }
+                return View(models);
+            }
         }
     }
 }

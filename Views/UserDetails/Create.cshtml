@@ -2,12 +2,14 @@
 @{
     ViewData["Title"] = "Create";
 }
+<head>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+</head>
+<h1 class="text-center">Registration Form</h1>
 
-<h1>Create</h1>
-
-<h4>UserDetails</h4>
+<h4 class="text-center">Student Details</h4>
 <hr />
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,19 +25,25 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input asp-for="Gender"  class="form-check-input" type="radio" value="Male" >
+                @*<input asp-for="Gender"  class="form-check-input" type="radio" value="Male" >
+
                 <label asp-for="Gender"  class="form-check-label" >
                     Male
                 </label>
                 <input asp-for="Gender" class="form-check-input" type="radio" value="Female">
                 <label asp-for="Gender" class="form-check-label">
                     Female
-                </label>
+                </label>*@
+
+                <label asp-for="Gender" class="control-label"></label><br />
+                @Html.RadioButton("Gender", "Male") Male<br />
+                @Html.RadioButton("Gender", "Female") Female<br />
+                <span asp-validation-for="Gender" class="text-danger"></span>
 
             </div>
                 
@@ -56,6 +64,7 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
+                <label asp-for="City" class="control-label"></label></br>
                 <select asp-for="City" asp-items="Model.CityList"></select>
                 @*<label asp-for="City" class="control-label"></label>
                 <input asp-for="City" class="form-control" />

@@ -8,14 +8,14 @@
 <h1>ViewCityWise</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-info">Register New User</a>
 </p>
 @foreach(var item1 in Model)
 {
     if(!c.Equals(item1.CityName))
     {
         c = item1.CityName;
-        @item1.City
+            <h1>@item1.CityName</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -28,9 +28,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.FullName)
                     </th>
-                    <th>
+                    @*<th>
                         @Html.DisplayNameFor(model => model.Password)
-                    </th>
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Gender)
                     </th>
@@ -43,7 +43,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.CityName)
                     </th>
-                    <th></th>
+                    <th>
+                        Action
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -61,9 +63,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.FullName)
                             </td>
-                            <td>
+                           @* <td>
                                 @Html.DisplayFor(modelItem => item.Password)
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Gender)
                             </td>
@@ -77,7 +79,7 @@
                                 @Html.DisplayFor(modelItem => item.CityName)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { Id=item.Id },new{ @class="btn btn-outline-primary"}) |
+                                @Html.ActionLink("Edit", "Edit1", new { Id=item.Id },new{ @class="btn btn-outline-primary"}) |
                                 @Html.ActionLink("Details", "Details", new { Id=item.Id },new{ @class="btn btn-outline-info"}) |
                                 @Html.ActionLink("Delete", "Delete", new { Id=item.Id },new{ @class="btn btn-outline-danger"})
                             </td>
